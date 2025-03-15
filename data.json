@@ -1,0 +1,73 @@
+[
+    {
+      "id": 1,
+      "name": "John Doe",
+      "status": "In Hospital",
+      "admissionReason": "Pneumonia",
+      "dischargeDetails": null,
+      "checkIns": []
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "status": "Discharged",
+      "admissionReason": "Appendicitis",
+      "dischargeDetails": {
+        "dischargeDate": "2025-03-01T10:00",
+        "diagnosis": "K35.2 (Acute appendicitis)",
+        "dischargeSummary": "Appendix removed. Patient is stable.",
+        "medications": [
+          { "name": "Acetaminophen", "dosage": "500 mg", "frequency": "Q6H PRN" }
+        ],
+        "activityRestrictions": "No heavy lifting for 2 weeks",
+        "dietRecommendations": "Regular diet, stay hydrated",
+        "redFlagSymptoms": "Severe abdominal pain, fever, vomiting",
+        "nextFollowupDue": "Check-up in 7 days",
+        "contactForEmergency": "(555) 987-6543 or nearest ER",
+        "dischargeInstructions": "Keep incision clean, watch for infection",
+        "checkInTemplate": {
+          "questions": ["Medication taken?", "Symptoms", "How are you feeling?"]
+        },
+        "checkInInstances": ["2025-03-02", "2025-03-03", "2025-03-04"],
+        "expectedCheckIns": 3
+      },
+      "checkIns": [
+        {
+          "date": "2025-03-02",
+          "response": {
+            "Medication taken?": "Yes",
+            "Symptoms": "Mild pain",
+            "How are you feeling?": "Good"
+          },
+          "status": "completed"
+        },
+        {
+          "date": "2025-03-03",
+          "response": {
+            "Medication taken?": "",
+            "Symptoms": "",
+            "How are you feeling?": ""
+          },
+          "status": "pending"
+        },
+        {
+          "date": "2025-03-04",
+          "response": {
+            "Medication taken?": "No",
+            "Symptoms": "Severe pain",
+            "How are you feeling?": "Poor"
+          },
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Mark Johnson",
+      "status": "In Hospital",
+      "admissionReason": "Hip Surgery",
+      "dischargeDetails": null,
+      "checkIns": []
+    }
+  ]
+  
