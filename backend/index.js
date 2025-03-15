@@ -87,7 +87,7 @@ app.get('/api/patients/:id', async (req, res) => {
 // POST a new patient
 app.post('/api/patients', async (req, res) => {
   try {
-    const newPatient = new Patient(req.body);
+    const newPatient = new APatient(req.body);
     await newPatient.save();
     res.status(201).json(newPatient);
   } catch (err) {

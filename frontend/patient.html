@@ -45,12 +45,10 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      text-decoration: none;
       margin-left: 10px;
+      text-decoration: none;
     }
-    .reset-btn:hover {
-      background: #c82333;
-    }
+    .reset-btn:hover { background: #c82333; }
     .back-btn {
       background: #6c757d;
       color: #fff;
@@ -60,9 +58,7 @@
       margin-top: 10px;
       display: inline-block;
     }
-    .back-btn:hover {
-      background: #5a6268;
-    }
+    .back-btn:hover { background: #5a6268; }
     .section { margin-bottom: 20px; }
     .discharge-form, .custom-checkin-form, .display-section {
       border: 1px solid #ddd;
@@ -103,7 +99,6 @@
       margin-bottom: 6px;
     }
     .medication-row input { flex: 1; padding: 4px; }
-    /* Template Section for Standard Check-In Questions */
     .template-section, .instances-section {
       border: 1px solid #ddd;
       padding: 10px;
@@ -244,7 +239,7 @@
     <!-- Display Section: Once discharged, show summary (only once) -->
     <div id="displaySection" class="section" style="display: none;"></div>
     
-    <!-- Check-In Responses Section: List all check-ins (only show responses if filled; otherwise, show date and pending) -->
+    <!-- Check-In Responses Section: List all check-ins -->
     <div id="checkInsSection" class="section">
       <h3>Patient Check-In Responses</h3>
       <div id="responsesList" class="responses"></div>
@@ -254,10 +249,30 @@
   <script>
     // --- GLOBAL SETUP ---
     const urlParams = new URLSearchParams(window.location.search);
-    const patientId = parseInt(urlParams.get("patientId"));
-    // Do not clear localStorage; use existing data.
-    let patientsData = JSON.parse(localStorage.getItem("patientsData")) || [];
-    let currentPatient = patientsData.find(p => p.id === patientId);
+    const patientId = urlParams.get("patientId");
+    // Base API URL - adjust as needed
+    const API_BASE = 'http://localhost:5000/api/patients';
+    
+    // Fetch patient data from MongoDB via API
+    function fetchPatientData() {
+      return fetch(`${API_BASE}/${patientId}`)
+        .then(res => res.json())
+        .then(data => {
+          currentPatient = data;
+          renderHeader();
+          renderPatientInfo();
+          renderCheckIns();
+          if (currentPatient.status === "Discharged") {
+            actionSection.style.display = "none";
+            dischargeFormSection.style.display = "none";
+            displaySection.style.display = "block";
+            displaySection.innerHTML = generateDisplayHTML();
+          }
+        })
+        .catch(err => console.error("Error fetching patient data:", err));
+    }
+    
+    let currentPatient;
     
     // --- DOM ELEMENTS ---
     const patientNameEl = document.getElementById("patientName");
@@ -288,93 +303,45 @@
     const confirmDischargeBtn = document.getElementById("confirmDischargeBtn");
     const displaySection = document.getElementById("displaySection");
     const responsesListEl = document.getElementById("responsesList");
+    const resetBtn = document.getElementById("resetBtn");
     
     // --- Reset Data Button ---
-    const resetBtn = document.getElementById("resetBtn");
-    // In patient.html, the Reset Data button is available in the header.
     resetBtn.addEventListener("click", () => {
-      // Default patient data (same as used in index.html)
-      // Pre-populated default patient data.
-const defaultPatients = [
-  {
-    id: 1,
-    name: "John Doe",
-    status: "In Hospital",
-    admissionReason: "Pneumonia",
-    dischargeDetails: null,
-    checkIns: []
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    status: "Discharged",
-    admissionReason: "Appendicitis",
-    dischargeDetails: {
-      dischargeDate: "2025-03-01T10:00",
-      diagnosis: "K35.2 (Acute appendicitis)",
-      dischargeSummary: "Appendix removed. Patient is stable.",
-      medications: [
-        { name: "Acetaminophen", dosage: "500 mg", frequency: "Q6H PRN" }
-      ],
-      activityRestrictions: "No heavy lifting for 2 weeks.",
-      dietRecommendations: "Regular diet, stay hydrated.",
-      redFlagSymptoms: "Severe abdominal pain, fever, vomiting.",
-      nextFollowupDue: "Check-up in 7 days",
-      contactForEmergency: "(555) 987-6543 or nearest ER",
-      dischargeInstructions: "Keep incision clean, watch for infection.",
-      checkInTemplate: {
-        questions: ["Medication taken?", "Symptoms", "How are you feeling?"]
-      },
-      checkInInstances: ["2025-03-02", "2025-03-03", "2025-03-04"],
-      expectedCheckIns: 3
-    },
-    checkIns: [
-      {
-        date: "2025-03-02",
-        response: {
-          "Medication taken?": "Yes",
-          "Symptoms": "Mild pain",
-          "How are you feeling?": "Good"
+      // Define default patient data (same as in index.html)
+      const defaultPatients = [
+        {
+          id: "1",
+          name: "John Doe",
+          status: "In Hospital",
+          admissionReason: "Pneumonia",
+          dischargeDetails: null,
+          checkIns: []
         },
-        status: "completed"
-      },
-      {
-        date: "2025-03-03",
-        response: {
-          "Medication taken?": "",
-          "Symptoms": "",
-          "How are you feeling?": ""
+        {
+          id: "2",
+          name: "Jane Smith",
+          status: "In Hospital",
+          admissionReason: "Appendicitis",
+          dischargeDetails: null,
+          checkIns: []
         },
-        status: "pending"
-      },
-      {
-        date: "2025-03-04",
-        response: {
-          "Medication taken?": "No",
-          "Symptoms": "Severe pain",
-          "How are you feeling?": "Poor"
-        },
-        status: "completed"
-      }
-    ]
-  },
-  {
-    id: 3,
-    name: "Mark Johnson",
-    status: "In Hospital",
-    admissionReason: "Hip Surgery",
-    dischargeDetails: null,
-    checkIns: []
-  }
-];
-
-
-
+        {
+          id: "3",
+          name: "Mark Johnson",
+          status: "In Hospital",
+          admissionReason: "Hip Surgery",
+          dischargeDetails: null,
+          checkIns: []
+        }
+      ];
+      // For simplicity, update patientsData collection in the backend would normally be done separately.
+      // Here, we mimic a reset by calling the backend API to clear and reinitialize,
+      // but for this demo, we simply overwrite localStorage and then reload.
       localStorage.setItem("patientsData", JSON.stringify(defaultPatients));
       location.href = "index.html";
     });
     
-    // --- HELPER FUNCTIONS ---
+    // --- Helper Functions ---
     function renderHeader() {
       if (!currentPatient) return;
       patientNameEl.textContent = "Managing Patient: " + currentPatient.name;
@@ -429,7 +396,7 @@ const defaultPatients = [
     });
     
     // --- Check-In Instances ---
-    // When nurse clicks "Set Count", generate that many check-in instance rows with a date input (date only).
+    // When nurse clicks "Set Count", generate that many check-in instance rows with a date input (type="date").
     setCheckinCountBtn.addEventListener("click", () => {
       const count = parseInt(numCheckinsInput.value);
       if (isNaN(count) || count < 1) {
@@ -500,7 +467,7 @@ const defaultPatients = [
       for (let i = 0; i < expectedCount; i++) {
         const dummy = {};
         templateQuestions.forEach(q => {
-          dummy[q] = "";
+          dummy[q] = ""; // Initially empty.
         });
         currentPatient.checkIns.push({
           date: instanceDates[i] || "",
@@ -509,18 +476,28 @@ const defaultPatients = [
         });
       }
       
-      // Update localStorage to maintain data consistency.
-      patientsData = patientsData.map(p => p.id === currentPatient.id ? currentPatient : p);
-      localStorage.setItem("patientsData", JSON.stringify(patientsData));
-      
-      // Hide the discharge form and action sections; show summary display.
-      dischargeFormSection.style.display = "none";
-      actionSection.style.display = "none";
-      displaySection.style.display = "block";
-      displaySection.innerHTML = generateDisplayHTML();
-      
-      renderPatientInfo();
-      renderCheckIns();
+      // Call the backend PUT API to update the patient
+      fetch(`${API_BASE}/${patientId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(currentPatient)
+      })
+      .then(res => res.json())
+      .then(data => {
+        currentPatient = data;
+        // Update local copy if needed
+        console.log("Patient updated:", data);
+        // Hide the discharge form and action sections; show summary display.
+        dischargeFormSection.style.display = "none";
+        actionSection.style.display = "none";
+        displaySection.style.display = "block";
+        displaySection.innerHTML = generateDisplayHTML();
+        renderPatientInfo();
+        renderCheckIns();
+      })
+      .catch(err => console.error("Error updating patient:", err));
     });
     
     // --- Generate Display HTML for Summary ---
@@ -546,8 +523,7 @@ const defaultPatients = [
     }
     
     // --- Render Check-In Responses ---
-    // For each check-in response, if all answer fields are empty then display only the check-in date with "Pending"
-    // Otherwise, display the filled responses.
+    // For each check-in response, if no answer is provided, display only the check-in date with "Pending".
     function renderCheckIns() {
       responsesListEl.innerHTML = "";
       if (!currentPatient || currentPatient.status !== "Discharged") {
@@ -586,7 +562,7 @@ const defaultPatients = [
       renderHeader();
       renderPatientInfo();
       renderCheckIns();
-      // If patient is already discharged, hide action and discharge form sections; show summary.
+      // If already discharged, hide the action and discharge form sections; show summary.
       if (currentPatient.status === "Discharged") {
         actionSection.style.display = "none";
         dischargeFormSection.style.display = "none";
@@ -594,7 +570,9 @@ const defaultPatients = [
         displaySection.innerHTML = generateDisplayHTML();
       }
     }
-    init();
+    
+    // Fetch data from the backend and initialize.
+    fetchPatientData();
   </script>
 </body>
 </html>

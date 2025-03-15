@@ -86,10 +86,11 @@
 
     // Function to fetch patients from the backend API.
     function fetchPatients() {
-      fetch('https://your-backend-domain.com/api/patients')
+      fetch('http://localhost:5000/api/patients')
         .then(response => response.json())
         .then(data => {
           patientsData = data; // Update global variable with fetched data.
+          console.log(patientsData);
           updateDashboard();  // Use the variable to update the dashboard.
         })
         .catch(err => console.error("Error fetching patients:", err));
