@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Portal - Schedule Optimization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">MedScheduler</div>
+            <nav>
+                <ul id="navigation-menu">
+                    <!-- Navigation will be populated from data -->
+                </ul>
+            </nav>
+            <div class="user-info" id="user-info">
+                <!-- User info will be populated from data -->
+            </div>
+        </header>
+
+        <main>
+            <section class="dashboard">
+                <h1>Patient Dashboard</h1>
+                <div class="dashboard-content">
+                    <div class="upcoming-appointments">
+                        <h2>Upcoming Appointments</h2>
+                        <div id="appointment-list">
+                            <!-- Appointments will be populated from data -->
+                        </div>
+                    </div>
+                    
+                    <div class="actions-panel">
+                        <button id="bookAppointmentBtn" class="btn btn-primary">Book New Appointment</button>
+                        <button class="btn btn-secondary">View Medical History</button>
+                        <button class="btn btn-secondary">Message Provider</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Appointment Booking Modal -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-steps">
+                <div class="step active" data-step="1">1. Patient Information</div>
+                <div class="step" data-step="2">2. Insurance Verification</div>
+                <div class="step" data-step="3">3. Schedule Appointment</div>
+                <div class="step" data-step="4">4. Confirmation</div>
+            </div>
+            
+            <!-- Step 1: Patient Information -->
+            <div class="modal-step-content" id="step1">
+                <h2>Patient Information</h2>
+                <form id="patientInfoForm">
+                    <div class="form-group">
+                        <label>Do you have any mobility issues?</label>
+                        <div class="radio-group" id="mobility-options">
+                            <!-- Mobility options will be populated from data -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reasonForVisit">Reason for Visit *</label>
+                        <select id="reasonForVisit" required>
+                            <!-- Reasons will be populated from data -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="symptoms">Please describe your symptoms or concerns *</label>
+                        <textarea id="symptoms" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="symptomDuration">How long have you had these symptoms?</label>
+                        <select id="symptomDuration">
+                            <!-- Durations will be populated from data -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>How would you rate the severity?</label>
+                        <div class="radio-group" id="severity-options">
+                            <!-- Severity options will be populated from data -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Preferred Visit Type</label>
+                        <div class="radio-group" id="visit-type-options">
+                            <!-- Visit types will be populated from data -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary next-step">Continue to Insurance Verification</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Step 2: Insurance Verification -->
+            <div class="modal-step-content" id="step2" style="display: none;">
+                <h2>Insurance Verification</h2>
+                <div id="insuranceInfo">
+                    <!-- Insurance info will be populated from data -->
+                </div>
+            </div>
+            
+            <!-- Step 3: Schedule Appointment -->
+            <div class="modal-step-content" id="step3" style="display: none;">
+                <h2>Schedule Appointment</h2>
+                <form id="scheduleForm">
+                    <div class="form-group">
+                        <label>Appointment Type</label>
+                        <div class="radio-group" id="appointment-type-options">
+                            <!-- Appointment types will be populated from data -->
+                        </div>
+                        <p class="recommendation" id="appointmentTypeRecommendation"></p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Priority Booking</label>
+                        <div class="radio-group" id="priority-booking-options">
+                            <!-- Priority options will be populated from data -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentDate">Select Date</label>
+                        <input type="date" id="appointmentDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Available Time Slots</label>
+                        <div class="time-slots" id="available-time-slots">
+                            <!-- Time slots will be populated from data -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary prev-step">Back</button>
+                        <button type="button" class="btn btn-primary next-step">Book Appointment</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Step 4: Confirmation -->
+            <div class="modal-step-content" id="step4" style="display: none;">
+                <h2>Appointment Confirmed</h2>
+                <div class="confirmation-details" id="confirmation-details">
+                    <!-- Confirmation details will be populated from data -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
