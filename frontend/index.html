@@ -23,9 +23,11 @@
       border-radius: 5px;
       width: 220px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: relative;
     }
     .patient-card h3 {
       margin-bottom: 5px;
+      font-size: 1.1em;
     }
     .patient-card p {
       margin: 0 0 8px 0;
@@ -66,16 +68,41 @@
     // Global variable to store patient data.
     let patientsData = [];
 
-    // Function to update the dashboard using the patientsData variable.
+    function getAttentionBadge(patient) {
+  if (!patient.checkIns || patient.checkIns.length === 0) return "";
+  
+  // Find the check-in with the most recent (maximum) date.
+  const latestCheckin = patient.checkIns.reduce((prev, curr) => {
+    const prevTime = new Date(prev.date).getTime();
+    const currTime = new Date(curr.date).getTime();
+    return currTime > prevTime ? curr : prev;
+  });
+  
+  // Return the appropriate badge based on the latest check-in's status.
+  switch(latestCheckin.status) {
+    case "followUp":
+      return `<span style="background: red; color: white; padding: 2px 4px; border-radius: 3px; font-size: 0.8em; position: absolute; top: 10px; right: 10px;">High Attention</span>`;
+    case "missed":
+      return `<span style="background: orange; color: white; padding: 2px 4px; border-radius: 3px; font-size: 0.8em; position: absolute; top: 10px; right: 10px;">Moderate Attention</span>`;
+    case "pending":
+      return `<span style="background: blue; color: white; padding: 2px 4px; border-radius: 3px; font-size: 0.8em; position: absolute; top: 10px; right: 10px;">Low Attention</span>`;
+    case "completed":
+      return `<span style="background: green; color: white; padding: 2px 4px; border-radius: 3px; font-size: 0.8em; position: absolute; top: 10px; right: 10px;">Reviewed</span>`;
+    default:
+      return "";
+  }
+}
+
+    // Update the dashboard using the patientsData variable.
     function updateDashboard() {
       const patientListEl = document.getElementById("patientList");
       patientListEl.innerHTML = ""; // Clear existing content
       patientsData.forEach(patient => {
         const card = document.createElement("div");
         card.className = "patient-card";
-        // Using patient._id as the unique identifier from MongoDB.
+        // Use patient._id as the unique identifier from MongoDB.
         card.innerHTML = `
-          <h3>${patient.name}</h3>
+          <h3>${patient.name} ${getAttentionBadge(patient)}</h3>
           <p>Status: ${patient.status}</p>
           <p>Reason: ${patient.admissionReason}</p>
           <a class="manage-btn" href="patient.html?patientId=${patient._id}">Manage</a>
@@ -84,14 +111,14 @@
       });
     }
 
-    // Function to fetch patients from the backend API.
+    // Fetch patients from the backend API.
     function fetchPatients() {
       fetch('http://localhost:5000/api/patients')
         .then(response => response.json())
         .then(data => {
           patientsData = data; // Update global variable with fetched data.
-          console.log(patientsData);
-          updateDashboard();  // Use the variable to update the dashboard.
+          console.log("Fetched patients:", patientsData);
+          updateDashboard();  // Update the dashboard UI.
         })
         .catch(err => console.error("Error fetching patients:", err));
     }
@@ -101,7 +128,7 @@
 
     // Reset Data button handler: calls backend reset endpoint and then refetches data.
     document.getElementById("resetBtn").addEventListener("click", () => {
-      fetch('https://your-backend-domain.com/api/reset', { method: 'POST' })
+      fetch('http://localhost:5000/api/reset', { method: 'POST' })
         .then(response => {
           if (response.ok) {
             fetchPatients(); // Refresh dashboard after reset.

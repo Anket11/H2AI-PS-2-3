@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Patient Management</title>
@@ -9,21 +10,27 @@
       margin: 20px;
       background: #f8f9fa;
     }
+
     .container {
       background: #fff;
       padding: 20px;
       border-radius: 6px;
       max-width: 800px;
       margin: 0 auto;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
     }
-    .header h2 { margin: 0; }
+
+    .header h2 {
+      margin: 0;
+    }
+
     .btn {
       display: inline-block;
       margin-top: 10px;
@@ -35,9 +42,20 @@
       cursor: pointer;
       text-decoration: none;
     }
-    .btn:hover { background: #0056b3; }
-    .green { background: #28a745; color: #fff; }
-    .green:hover { background: #218838; }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    .green {
+      background: #28a745;
+      color: #fff;
+    }
+
+    .green:hover {
+      background: #218838;
+    }
+
     .reset-btn {
       background: #dc3545;
       color: #fff;
@@ -48,7 +66,11 @@
       margin-left: 10px;
       text-decoration: none;
     }
-    .reset-btn:hover { background: #c82333; }
+
+    .reset-btn:hover {
+      background: #c82333;
+    }
+
     .back-btn {
       background: #6c757d;
       color: #fff;
@@ -58,19 +80,31 @@
       margin-top: 10px;
       display: inline-block;
     }
-    .back-btn:hover { background: #5a6268; }
-    .section { margin-bottom: 20px; }
-    .discharge-form, .custom-checkin-form, .display-section {
+
+    .back-btn:hover {
+      background: #5a6268;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .discharge-form,
+    .custom-checkin-form,
+    .display-section {
       border: 1px solid #ddd;
       padding: 15px;
       border-radius: 4px;
       margin-bottom: 20px;
     }
-    .discharge-form label, .custom-checkin-form label {
+
+    .discharge-form label,
+    .custom-checkin-form label {
       display: block;
       margin-bottom: 4px;
       font-weight: bold;
     }
+
     .discharge-form input[type="text"],
     .discharge-form input[type="datetime-local"],
     .discharge-form textarea,
@@ -81,50 +115,72 @@
       padding: 6px;
       margin-bottom: 10px;
     }
+
     .medications-container {
       border: 1px solid #ddd;
       padding: 10px;
       margin-bottom: 10px;
       border-radius: 4px;
     }
+
     .medications-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
     }
+
     .medication-row {
       display: flex;
       gap: 10px;
       margin-bottom: 6px;
     }
-    .medication-row input { flex: 1; padding: 4px; }
-    .template-section, .instances-section {
+
+    .medication-row input {
+      flex: 1;
+      padding: 4px;
+    }
+
+    /* Template Section for Standard Check-In Questions */
+    .template-section,
+    .instances-section {
       border: 1px solid #ddd;
       padding: 10px;
       margin-bottom: 10px;
       border-radius: 4px;
     }
-    .template-section h5, .instances-section h5 {
+
+    .template-section h5,
+    .instances-section h5 {
       margin: 0 0 10px 0;
     }
-    .template-row, .instances-row {
+
+    .template-row,
+    .instances-row {
       margin-bottom: 6px;
     }
-    .template-row input, .instances-row input {
+
+    .template-row input,
+    .instances-row input {
       width: 100%;
       padding: 4px;
       margin-bottom: 5px;
     }
+
     .responses {
       border-top: 1px solid #ddd;
       padding-top: 10px;
     }
+
     .response-item {
       border-bottom: 1px solid #eee;
       padding: 8px 0;
     }
-    .response-item:last-child { border-bottom: none; }
+
+    .response-item:last-child {
+      border-bottom: none;
+    }
+
     .call-btn {
       background: #ffc107;
       color: #000;
@@ -133,9 +189,13 @@
       text-decoration: none;
       cursor: pointer;
     }
-    .call-btn:hover { background: #e0a800; }
+
+    .call-btn:hover {
+      background: #e0a800;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <!-- Header: Patient Name, Call Button, Back to Dashboard, and Reset Data -->
@@ -144,60 +204,60 @@
       <div>
         <button class="btn" id="callBtn">Call Patient</button>
         <a href="index.html" class="back-btn">Back to Dashboard</a>
-        <button id="resetBtn" class="reset-btn">Reset Data</button>
       </div>
     </div>
-    
+
     <!-- Basic Patient Info (without discharge details) -->
     <div id="patientInfo" class="section"></div>
-    
+
     <!-- Action Section: Only if patient is not discharged -->
     <div id="actionSection" class="section">
       <button id="dischargePatientBtn" class="btn green">Discharge Patient</button>
     </div>
-    
+
     <!-- Combined Discharge Form Section (hidden until "Discharge Patient" is clicked) -->
     <div id="dischargeFormSection" class="section" style="display: none;">
       <div class="discharge-form">
         <h3>Discharge Details & Check-In Form</h3>
-        
+
         <!-- Discharge Details -->
         <label for="dischargeDate">Discharge Date/Time</label>
         <input type="datetime-local" id="dischargeDate">
-        
+
         <label for="diagnosis">Diagnosis</label>
         <input type="text" id="diagnosis" placeholder="e.g., J15.9 (Pneumonia)">
-        
+
         <label for="dischargeSummary">Discharge Summary</label>
         <textarea id="dischargeSummary" rows="2" placeholder="Overall hospitalization summary"></textarea>
-        
+
         <!-- Dynamic Medication List -->
         <div class="medications-container">
           <div class="medications-header">
             <span>Medications</span>
-            <button id="addMedicationBtn" class="btn" style="padding: 4px 8px; font-size: 0.9em;">Add Medication</button>
+            <button id="addMedicationBtn" class="btn" style="padding: 4px 8px; font-size: 0.9em;">Add
+              Medication</button>
           </div>
           <div id="medicationsList"></div>
         </div>
-        
+
         <label for="activityRestrictions">Activity Restrictions</label>
         <input type="text" id="activityRestrictions" placeholder="No heavy lifting, etc.">
-        
+
         <label for="dietRecommendations">Diet Recommendations</label>
         <input type="text" id="dietRecommendations" placeholder="Light, balanced diet...">
-        
+
         <label for="redFlagSymptoms">Red-Flag Symptoms</label>
         <input type="text" id="redFlagSymptoms" placeholder="Fever above 101°F...">
-        
+
         <label for="nextFollowupDue">Next Follow-up Due</label>
         <input type="text" id="nextFollowupDue" placeholder="Check‑up in 7 days...">
-        
+
         <label for="contactForEmergency">Contact For Emergency</label>
         <input type="text" id="contactForEmergency" placeholder="(555) 123‑4567 or go to ER">
-        
+
         <label for="dischargeInstructions">Discharge Instructions</label>
         <textarea id="dischargeInstructions" rows="2" placeholder="Keep incision clean..."></textarea>
-        
+
         <!-- Check-In Form Customization -->
         <div class="custom-checkin-form">
           <h4>Customize Check-In Form for Patient</h4>
@@ -218,42 +278,42 @@
           <div>
             <button id="addNewQuestionBtn" class="btn">Add New Question</button>
           </div>
-          
+
           <!-- Expected Number of Check-Ins -->
           <label for="numCheckins">Expected Number of Check-Ins</label>
           <input type="number" id="numCheckins" min="1" placeholder="e.g., 3">
           <button id="setCheckinCountBtn" class="btn">Set Count</button>
-          
+
           <!-- Check-In Instances: Only Check In Date input (date only) for each instance -->
           <div class="instances-section" id="checkinInstancesContainer">
             <h5>Check-In Instances (Nurse sets the date):</h5>
             <!-- Rows will be generated here -->
           </div>
         </div>
-        
+
         <!-- Confirm Discharge Button -->
         <button id="confirmDischargeBtn" class="btn green">Confirm Discharge</button>
       </div>
     </div>
-    
+
     <!-- Display Section: Once discharged, show summary (only once) -->
     <div id="displaySection" class="section" style="display: none;"></div>
-    
-    <!-- Check-In Responses Section: List all check-ins -->
+
+    <!-- Check-In Responses Section: List all check-ins (only show responses if filled; otherwise, show date and pending/missed) -->
     <div id="checkInsSection" class="section">
       <h3>Patient Check-In Responses</h3>
       <div id="responsesList" class="responses"></div>
     </div>
   </div>
-  
+
   <script>
     // --- GLOBAL SETUP ---
     const urlParams = new URLSearchParams(window.location.search);
     const patientId = urlParams.get("patientId");
     // Base API URL - adjust as needed
     const API_BASE = 'http://localhost:5000/api/patients';
-    
-    // Fetch patient data from MongoDB via API
+
+    // Fetch patient data from the backend API
     function fetchPatientData() {
       return fetch(`${API_BASE}/${patientId}`)
         .then(res => res.json())
@@ -271,9 +331,9 @@
         })
         .catch(err => console.error("Error fetching patient data:", err));
     }
-    
+
     let currentPatient;
-    
+
     // --- DOM ELEMENTS ---
     const patientNameEl = document.getElementById("patientName");
     const callBtn = document.getElementById("callBtn");
@@ -292,54 +352,19 @@
     const nextFollowupDueInput = document.getElementById("nextFollowupDue");
     const contactForEmergencyInput = document.getElementById("contactForEmergency");
     const dischargeInstructionsInput = document.getElementById("dischargeInstructions");
-    
+
     // Check-In Form Customization DOM
     const templateContainer = document.getElementById("templateContainer");
     const addNewQuestionBtn = document.getElementById("addNewQuestionBtn");
     const numCheckinsInput = document.getElementById("numCheckins");
     const setCheckinCountBtn = document.getElementById("setCheckinCountBtn");
     const checkinInstancesContainer = document.getElementById("checkinInstancesContainer");
-    
+
     const confirmDischargeBtn = document.getElementById("confirmDischargeBtn");
     const displaySection = document.getElementById("displaySection");
     const responsesListEl = document.getElementById("responsesList");
     const resetBtn = document.getElementById("resetBtn");
-    
-    // --- Reset Data Button ---
-    resetBtn.addEventListener("click", () => {
-      // Define default patient data (same as in index.html)
-      const defaultPatients = [
-        {
-          id: "1",
-          name: "John Doe",
-          status: "In Hospital",
-          admissionReason: "Pneumonia",
-          dischargeDetails: null,
-          checkIns: []
-        },
-        {
-          id: "2",
-          name: "Jane Smith",
-          status: "In Hospital",
-          admissionReason: "Appendicitis",
-          dischargeDetails: null,
-          checkIns: []
-        },
-        {
-          id: "3",
-          name: "Mark Johnson",
-          status: "In Hospital",
-          admissionReason: "Hip Surgery",
-          dischargeDetails: null,
-          checkIns: []
-        }
-      ];
-      // For simplicity, update patientsData collection in the backend would normally be done separately.
-      // Here, we mimic a reset by calling the backend API to clear and reinitialize,
-      // but for this demo, we simply overwrite localStorage and then reload.
-      localStorage.setItem("patientsData", JSON.stringify(defaultPatients));
-      location.href = "index.html";
-    });
+
     
     // --- Helper Functions ---
     function renderHeader() {
@@ -349,7 +374,7 @@
     callBtn.addEventListener("click", () => {
       console.log("Calling " + currentPatient.name + "...");
     });
-    
+
     function renderPatientInfo() {
       if (!currentPatient) {
         patientInfoEl.innerHTML = "<p>Patient not found.</p>";
@@ -359,13 +384,13 @@
                   <p><strong>Admission Reason:</strong> ${currentPatient.admissionReason}</p>`;
       patientInfoEl.innerHTML = html;
     }
-    
+
     // --- Action Section ---
     dischargePatientBtn.addEventListener("click", () => {
       dischargeFormSection.style.display = "block";
       actionSection.style.display = "none";
     });
-    
+
     // --- Medications: Dynamic List ---
     function addMedicationRow(med = { name: "", dosage: "", frequency: "" }) {
       const row = document.createElement("div");
@@ -384,7 +409,7 @@
     addMedicationBtn.addEventListener("click", () => {
       addMedicationRow();
     });
-    
+
     // --- Standard Check-In Template ---
     // The template section is pre-populated in HTML with standard questions (read-only).
     // Allow nurse to add extra questions.
@@ -394,9 +419,9 @@
       row.innerHTML = `<input type="text" class="template-question" placeholder="Enter new question">`;
       templateContainer.appendChild(row);
     });
-    
+
     // --- Check-In Instances ---
-    // When nurse clicks "Set Count", generate that many check-in instance rows with a date input (type="date").
+    // When nurse clicks "Set Count", generate that many check-in instance rows with a date input (date only).
     setCheckinCountBtn.addEventListener("click", () => {
       const count = parseInt(numCheckinsInput.value);
       if (isNaN(count) || count < 1) {
@@ -408,37 +433,37 @@
       for (let i = 0; i < count; i++) {
         const row = document.createElement("div");
         row.className = "instances-row";
-        row.innerHTML = `<label>Check In Date for Check-In ${i+1}</label>
+        row.innerHTML = `<label>Check In Date for Check-In ${i + 1}</label>
                          <input type="date" class="checkin-date-instance">`;
         checkinInstancesContainer.appendChild(row);
       }
     });
-    
+
     // --- Discharge Process ---
     confirmDischargeBtn.addEventListener("click", () => {
       const expectedCount = parseInt(numCheckinsInput.dataset.expectedCount || "0");
-      
+
       // Gather the check-in template questions from the template container.
       const templateQuestions = Array.from(document.querySelectorAll(".template-question"))
-                                   .map(input => input.value.trim())
-                                   .filter(q => q !== "");
-      
+        .map(input => input.value.trim())
+        .filter(q => q !== "");
+
       if (templateQuestions.length === 0) {
         console.log("Standard check-in template must have at least one question.");
         return;
       }
-      
-      // Gather check-in instance dates.
+
+      // Gather check-in instance dates from the instance rows.
       const instanceRows = document.querySelectorAll(".checkin-date-instance");
       let instanceDates = [];
       instanceRows.forEach(row => {
         instanceDates.push(row.value);  // Only date, no time.
       });
-      
+
       const fullCheckinTemplate = {
         questions: templateQuestions
       };
-      
+
       const dischargeObj = {
         dischargeDate: dischargeDateInput.value,
         diagnosis: diagnosisInput.value,
@@ -458,25 +483,35 @@
         checkInInstances: instanceDates,
         expectedCheckIns: expectedCount
       };
-      
+
       currentPatient.status = "Discharged";
       currentPatient.dischargeDetails = dischargeObj;
-      
+
       // Create dummy check-in responses (one for each expected check-in).
+      // For each dummy response, the nurse-provided "Check In Date" is stored.
+      // Additionally, if the check in date is in the past relative to today's date, mark it as "missed".
+      const today = new Date().toISOString().slice(0, 10);
       currentPatient.checkIns = [];
       for (let i = 0; i < expectedCount; i++) {
         const dummy = {};
         templateQuestions.forEach(q => {
           dummy[q] = ""; // Initially empty.
         });
+        let status = "pending";
+        if (instanceDates[i] && instanceDates[i] < today) {
+          status = "missed";
+        }
         currentPatient.checkIns.push({
           date: instanceDates[i] || "",
           response: dummy,
-          status: instanceDates[i] ? "pending" : "pending"
+          status: status
         });
       }
-      
-      // Call the backend PUT API to update the patient
+      updatePatient();
+
+    });
+    function updatePatient() {
+      // Update the patient via PUT API call
       fetch(`${API_BASE}/${patientId}`, {
         method: 'PUT',
         headers: {
@@ -484,22 +519,20 @@
         },
         body: JSON.stringify(currentPatient)
       })
-      .then(res => res.json())
-      .then(data => {
-        currentPatient = data;
-        // Update local copy if needed
-        console.log("Patient updated:", data);
-        // Hide the discharge form and action sections; show summary display.
-        dischargeFormSection.style.display = "none";
-        actionSection.style.display = "none";
-        displaySection.style.display = "block";
-        displaySection.innerHTML = generateDisplayHTML();
-        renderPatientInfo();
-        renderCheckIns();
-      })
-      .catch(err => console.error("Error updating patient:", err));
-    });
-    
+        .then(res => res.json())
+        .then(data => {
+          currentPatient = data;
+          console.log("Patient updated:", data);
+          dischargeFormSection.style.display = "none";
+          actionSection.style.display = "none";
+          displaySection.style.display = "block";
+          displaySection.innerHTML = generateDisplayHTML();
+          renderPatientInfo();
+          renderCheckIns();
+        })
+        .catch(err => console.error("Error updating patient:", err));
+    }
+
     // --- Generate Display HTML for Summary ---
     function generateDisplayHTML() {
       if (!currentPatient || currentPatient.status !== "Discharged" || !currentPatient.dischargeDetails) return "";
@@ -521,38 +554,56 @@
         <p><strong>Expected Check-Ins:</strong> ${dd.expectedCheckIns}</p>`;
       return html;
     }
-    
-    // --- Render Check-In Responses ---
-    // For each check-in response, if no answer is provided, display only the check-in date with "Pending".
+
     function renderCheckIns() {
-      responsesListEl.innerHTML = "";
-      if (!currentPatient || currentPatient.status !== "Discharged") {
-        responsesListEl.innerHTML = "<p>No check‑ins available.</p>";
-        return;
-      }
-      currentPatient.checkIns.forEach((ci, index) => {
-        let responsesHtml = "";
-        const template = currentPatient.dischargeDetails.checkInTemplate;
-        let hasAnswer = false;
-        if (template && template.questions.length > 0) {
-          template.questions.forEach(q => {
-            const answer = ci.response[q] ? ci.response[q].trim() : "";
-            if (answer !== "") {
-              hasAnswer = true;
-            }
-            responsesHtml += `<p><strong>${q}</strong>: ${answer || "<em>Pending</em>"}</p>`;
-          });
+  responsesListEl.innerHTML = "";
+  if (!currentPatient || currentPatient.status !== "Discharged") {
+    responsesListEl.innerHTML = "<p>No check‑ins available.</p>";
+    return;
+  }
+
+  currentPatient.checkIns.forEach((ci, index) => {
+    let hasAnswer = false;
+    const template = currentPatient.dischargeDetails.checkInTemplate;
+    let responsesHtml = "";
+    
+    if (template && template.questions.length > 0) {
+      template.questions.forEach(q => {
+        const answer = ci.response[q] ? ci.response[q].trim() : "";
+        if (answer !== "") {
+          hasAnswer = true;
         }
-        if (!hasAnswer) {
-          responsesHtml = `<p><strong>${ci.date || "No Date"}</strong> - Pending</p>`;
-        }
-        const div = document.createElement("div");
-        div.className = "response-item";
-        div.innerHTML = `<p><strong>Check-In ${index + 1}:</strong></p>${responsesHtml}`;
-        responsesListEl.appendChild(div);
+        responsesHtml += `<p><strong>${q}</strong>: ${answer}</p>`;
       });
     }
+
+    // Determine check-in status
+    const today = new Date().toISOString().slice(0, 10);
+    let status = "Pending";
     
+    if (!hasAnswer) {
+      if (ci.date && ci.date < today) {
+        status = "Missed";
+      }
+    } else {
+      status = "Completed";
+    }
+
+    // Construct the check-in display
+    const div = document.createElement("div");
+    div.className = "response-item";
+    div.innerHTML = `<p><strong>Check-In ${index + 1}:</strong></p>
+                     <p><strong>${ci.date || "No Date"}</strong> - ${status}</p>`;
+
+    // Only show responses if status is "Completed"
+    if (status === "Completed") {
+      div.innerHTML += responsesHtml;
+    }
+
+    responsesListEl.appendChild(div);
+  });
+}
+
     // --- INIT ---
     function init() {
       if (!currentPatient) {
@@ -562,7 +613,6 @@
       renderHeader();
       renderPatientInfo();
       renderCheckIns();
-      // If already discharged, hide the action and discharge form sections; show summary.
       if (currentPatient.status === "Discharged") {
         actionSection.style.display = "none";
         dischargeFormSection.style.display = "none";
@@ -570,9 +620,19 @@
         displaySection.innerHTML = generateDisplayHTML();
       }
     }
-    
+
     // Fetch data from the backend and initialize.
+    function fetchPatientData() {
+      fetch(`${API_BASE}/${patientId}`)
+        .then(res => res.json())
+        .then(data => {
+          currentPatient = data;
+          init();
+        })
+        .catch(err => console.error("Error fetching patient data:", err));
+    }
     fetchPatientData();
   </script>
 </body>
+
 </html>
