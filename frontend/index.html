@@ -63,106 +63,52 @@
   <p>Click a patient to manage discharge details and check‑in responses.</p>
   <div class="patient-list" id="patientList"></div>
   <script>
-   // Pre-populated default patient data.
-const defaultPatients = [
-  {
-    id: 1,
-    name: "John Doe",
-    status: "In Hospital",
-    admissionReason: "Pneumonia",
-    dischargeDetails: null,
-    checkIns: []
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    status: "Discharged",
-    admissionReason: "Appendicitis",
-    dischargeDetails: {
-      dischargeDate: "2025-03-01T10:00",
-      diagnosis: "K35.2 (Acute appendicitis)",
-      dischargeSummary: "Appendix removed. Patient is stable.",
-      medications: [
-        { name: "Acetaminophen", dosage: "500 mg", frequency: "Q6H PRN" }
-      ],
-      activityRestrictions: "No heavy lifting for 2 weeks.",
-      dietRecommendations: "Regular diet, stay hydrated.",
-      redFlagSymptoms: "Severe abdominal pain, fever, vomiting.",
-      nextFollowupDue: "Check-up in 7 days",
-      contactForEmergency: "(555) 987-6543 or nearest ER",
-      dischargeInstructions: "Keep incision clean, watch for infection.",
-      checkInTemplate: {
-        questions: ["Medication taken?", "Symptoms", "How are you feeling?"]
-      },
-      checkInInstances: ["2025-03-02", "2025-03-03", "2025-03-04"],
-      expectedCheckIns: 3
-    },
-    checkIns: [
-      {
-        date: "2025-03-02",
-        response: {
-          "Medication taken?": "Yes",
-          "Symptoms": "Mild pain",
-          "How are you feeling?": "Good"
-        },
-        status: "completed"
-      },
-      {
-        date: "2025-03-03",
-        response: {
-          "Medication taken?": "",
-          "Symptoms": "",
-          "How are you feeling?": ""
-        },
-        status: "pending"
-      },
-      {
-        date: "2025-03-04",
-        response: {
-          "Medication taken?": "No",
-          "Symptoms": "Severe pain",
-          "How are you feeling?": "Poor"
-        },
-        status: "completed"
-      }
-    ]
-  },
-  {
-    id: 3,
-    name: "Mark Johnson",
-    status: "In Hospital",
-    admissionReason: "Hip Surgery",
-    dischargeDetails: null,
-    checkIns: []
-  }
-];
+    // Global variable to store patient data.
+    let patientsData = [];
 
-    // Reset Data button handler.
-    const resetBtn = document.getElementById("resetBtn");
-    resetBtn.addEventListener("click", () => {
-      // Clear localStorage and reinitialize default data.
-      localStorage.setItem("patientsData", JSON.stringify(defaultPatients));
-      // Reload the page to reflect changes.
-      location.reload();
-    });
-    
-    // Initialize patient data if not already present.
-    if (!localStorage.getItem("patientsData")) {
-      localStorage.setItem("patientsData", JSON.stringify(defaultPatients));
+    // Function to update the dashboard using the patientsData variable.
+    function updateDashboard() {
+      const patientListEl = document.getElementById("patientList");
+      patientListEl.innerHTML = ""; // Clear existing content
+      patientsData.forEach(patient => {
+        const card = document.createElement("div");
+        card.className = "patient-card";
+        // Using patient._id as the unique identifier from MongoDB.
+        card.innerHTML = `
+          <h3>${patient.name}</h3>
+          <p>Status: ${patient.status}</p>
+          <p>Reason: ${patient.admissionReason}</p>
+          <a class="manage-btn" href="patient.html?patientId=${patient._id}">Manage</a>
+        `;
+        patientListEl.appendChild(card);
+      });
     }
-    
-    const patientListEl = document.getElementById("patientList");
-    const patientsData = JSON.parse(localStorage.getItem("patientsData"));
-    patientsData.forEach(patient => {
-      const card = document.createElement("div");
-      card.className = "patient-card";
-      card.innerHTML = `
-        <h3>${patient.name}</h3>
-        <p>Status: ${patient.status}</p>
-        <p>Reason: ${patient.admissionReason}</p>
-        <a class="manage-btn" href="patient.html?patientId=${patient.id}">Manage</a>
-      `;
-      patientListEl.appendChild(card);
+
+    // Function to fetch patients from the backend API.
+    function fetchPatients() {
+      fetch('https://your-backend-domain.com/api/patients')
+        .then(response => response.json())
+        .then(data => {
+          patientsData = data; // Update global variable with fetched data.
+          updateDashboard();  // Use the variable to update the dashboard.
+        })
+        .catch(err => console.error("Error fetching patients:", err));
+    }
+
+    // Fetch patients when the page loads.
+    fetchPatients();
+
+    // Reset Data button handler: calls backend reset endpoint and then refetches data.
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      fetch('https://your-backend-domain.com/api/reset', { method: 'POST' })
+        .then(response => {
+          if (response.ok) {
+            fetchPatients(); // Refresh dashboard after reset.
+          } else {
+            console.error("Reset failed");
+          }
+        })
+        .catch(err => console.error("Error resetting data:", err));
     });
   </script>
 </body>
