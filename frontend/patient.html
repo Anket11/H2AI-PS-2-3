@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Patient Management</title>
@@ -10,27 +9,21 @@
       margin: 20px;
       background: #f8f9fa;
     }
-
     .container {
       background: #fff;
       padding: 20px;
       border-radius: 6px;
       max-width: 800px;
       margin: 0 auto;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
     }
-
-    .header h2 {
-      margin: 0;
-    }
-
+    .header h2 { margin: 0; }
     .btn {
       display: inline-block;
       margin-top: 10px;
@@ -42,20 +35,9 @@
       cursor: pointer;
       text-decoration: none;
     }
-
-    .btn:hover {
-      background: #0056b3;
-    }
-
-    .green {
-      background: #28a745;
-      color: #fff;
-    }
-
-    .green:hover {
-      background: #218838;
-    }
-
+    .btn:hover { background: #0056b3; }
+    .green { background: #28a745; color: #fff; }
+    .green:hover { background: #218838; }
     .reset-btn {
       background: #dc3545;
       color: #fff;
@@ -66,11 +48,7 @@
       margin-left: 10px;
       text-decoration: none;
     }
-
-    .reset-btn:hover {
-      background: #c82333;
-    }
-
+    .reset-btn:hover { background: #c82333; }
     .back-btn {
       background: #6c757d;
       color: #fff;
@@ -80,31 +58,19 @@
       margin-top: 10px;
       display: inline-block;
     }
-
-    .back-btn:hover {
-      background: #5a6268;
-    }
-
-    .section {
-      margin-bottom: 20px;
-    }
-
-    .discharge-form,
-    .custom-checkin-form,
-    .display-section {
+    .back-btn:hover { background: #5a6268; }
+    .section { margin-bottom: 20px; }
+    .discharge-form, .custom-checkin-form, .display-section {
       border: 1px solid #ddd;
       padding: 15px;
       border-radius: 4px;
       margin-bottom: 20px;
     }
-
-    .discharge-form label,
-    .custom-checkin-form label {
+    .discharge-form label, .custom-checkin-form label {
       display: block;
       margin-bottom: 4px;
       font-weight: bold;
     }
-
     .discharge-form input[type="text"],
     .discharge-form input[type="datetime-local"],
     .discharge-form textarea,
@@ -115,72 +81,64 @@
       padding: 6px;
       margin-bottom: 10px;
     }
-
     .medications-container {
       border: 1px solid #ddd;
       padding: 10px;
       margin-bottom: 10px;
       border-radius: 4px;
     }
-
     .medications-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
     }
-
     .medication-row {
       display: flex;
       gap: 10px;
       margin-bottom: 6px;
     }
-
-    .medication-row input {
-      flex: 1;
-      padding: 4px;
-    }
-
-    /* Template Section for Standard Check-In Questions */
-    .template-section,
-    .instances-section {
+    .medication-row input { flex: 1; padding: 4px; }
+    .template-section, .instances-section {
       border: 1px solid #ddd;
       padding: 10px;
       margin-bottom: 10px;
       border-radius: 4px;
     }
-
-    .template-section h5,
-    .instances-section h5 {
+    .template-section h5, .instances-section h5 {
       margin: 0 0 10px 0;
     }
-
-    .template-row,
-    .instances-row {
+    .template-row, .instances-row {
       margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-
-    .template-row input,
-    .instances-row input {
+    .template-row input, .instances-row input {
       width: 100%;
       padding: 4px;
       margin-bottom: 5px;
     }
-
+    .remove-question-btn {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .remove-question-btn:hover {
+      background: #c82333;
+    }
     .responses {
       border-top: 1px solid #ddd;
       padding-top: 10px;
     }
-
     .response-item {
       border-bottom: 1px solid #eee;
       padding: 8px 0;
     }
-
-    .response-item:last-child {
-      border-bottom: none;
-    }
-
+    .response-item:last-child { border-bottom: none; }
     .call-btn {
       background: #ffc107;
       color: #000;
@@ -189,25 +147,22 @@
       text-decoration: none;
       cursor: pointer;
     }
-
-    .call-btn:hover {
-      background: #e0a800;
-    }
+    .call-btn:hover { background: #e0a800; }
   </style>
 </head>
-
 <body>
   <div class="container">
-    <!-- Header: Patient Name, Call Button, Back to Dashboard, and Reset Data -->
+    <!-- Header: Patient Name, Call Button, Back to Dashboard, Reset Data -->
     <div class="header">
       <h2 id="patientName">Managing Patient: [Patient Name]</h2>
       <div>
         <button class="btn" id="callBtn">Call Patient</button>
         <a href="index.html" class="back-btn">Back to Dashboard</a>
+        <button id="resetBtn" class="reset-btn">Reset Data</button>
       </div>
     </div>
 
-    <!-- Basic Patient Info (without discharge details) -->
+    <!-- Basic Patient Info -->
     <div id="patientInfo" class="section"></div>
 
     <!-- Action Section: Only if patient is not discharged -->
@@ -234,12 +189,15 @@
         <div class="medications-container">
           <div class="medications-header">
             <span>Medications</span>
-            <button id="addMedicationBtn" class="btn" style="padding: 4px 8px; font-size: 0.9em;">Add
-              Medication</button>
+            <button id="addMedicationBtn" class="btn" style="padding: 4px 8px; font-size: 0.9em;">Add Medication</button>
           </div>
           <div id="medicationsList"></div>
         </div>
 
+        <!-- Help AI Button: Get AI suggestions for the rest of the form -->
+        <button id="helpAiBtn" class="btn">Get AI Suggestions</button>
+
+        <!-- The remaining fields will be auto-filled based on AI suggestions -->
         <label for="activityRestrictions">Activity Restrictions</label>
         <input type="text" id="activityRestrictions" placeholder="No heavy lifting, etc.">
 
@@ -264,14 +222,18 @@
           <!-- Standard Check-In Template (read-only) -->
           <div class="template-section" id="templateContainer">
             <h5>Standard Check-In Questions (Patient will answer these):</h5>
+            <!-- Default questions with remove button -->
             <div class="template-row">
               <input type="text" class="template-question" value="Medication taken?" readonly>
+              <button class="remove-question-btn">X</button>
             </div>
             <div class="template-row">
               <input type="text" class="template-question" value="Symptoms" readonly>
+              <button class="remove-question-btn">X</button>
             </div>
             <div class="template-row">
               <input type="text" class="template-question" value="How are you feeling?" readonly>
+              <button class="remove-question-btn">X</button>
             </div>
           </div>
           <!-- Option to add extra questions -->
@@ -287,7 +249,6 @@
           <!-- Check-In Instances: Only Check In Date input (date only) for each instance -->
           <div class="instances-section" id="checkinInstancesContainer">
             <h5>Check-In Instances (Nurse sets the date):</h5>
-            <!-- Rows will be generated here -->
           </div>
         </div>
 
@@ -299,7 +260,7 @@
     <!-- Display Section: Once discharged, show summary (only once) -->
     <div id="displaySection" class="section" style="display: none;"></div>
 
-    <!-- Check-In Responses Section: List all check-ins (only show responses if filled; otherwise, show date and pending/missed) -->
+    <!-- Check-In Responses Section -->
     <div id="checkInsSection" class="section">
       <h3>Patient Check-In Responses</h3>
       <div id="responsesList" class="responses"></div>
@@ -310,29 +271,19 @@
     // --- GLOBAL SETUP ---
     const urlParams = new URLSearchParams(window.location.search);
     const patientId = urlParams.get("patientId");
-    // Base API URL - adjust as needed
     const API_BASE = 'http://localhost:5000/api/patients';
+    let currentPatient;
 
-    // Fetch patient data from the backend API
+    // --- Fetch Patient Data from Backend ---
     function fetchPatientData() {
       return fetch(`${API_BASE}/${patientId}`)
         .then(res => res.json())
         .then(data => {
           currentPatient = data;
-          renderHeader();
-          renderPatientInfo();
-          renderCheckIns();
-          if (currentPatient.status === "Discharged") {
-            actionSection.style.display = "none";
-            dischargeFormSection.style.display = "none";
-            displaySection.style.display = "block";
-            displaySection.innerHTML = generateDisplayHTML();
-          }
+          init();
         })
         .catch(err => console.error("Error fetching patient data:", err));
     }
-
-    let currentPatient;
 
     // --- DOM ELEMENTS ---
     const patientNameEl = document.getElementById("patientName");
@@ -364,9 +315,98 @@
     const displaySection = document.getElementById("displaySection");
     const responsesListEl = document.getElementById("responsesList");
     const resetBtn = document.getElementById("resetBtn");
+    const helpAiBtn = document.getElementById("helpAiBtn");
 
-    
-    // --- Helper Functions ---
+    // Add "Add New Check-In(s)" button programmatically
+    const newCheckinSection = document.createElement("div");
+    newCheckinSection.id = "newCheckinSection";
+    newCheckinSection.className = "section";
+    newCheckinSection.style.display = "none";
+    newCheckinSection.innerHTML = `
+      <h3>Add New Check-In(s)</h3>
+      <label for="newCheckinCount">Number of New Check-Ins</label>
+      <input type="number" id="newCheckinCount" min="1" placeholder="e.g., 2">
+      <button id="setNewCheckinCountBtn" class="btn">Set New Count</button>
+      <div class="instances-section" id="newCheckinInstancesContainer">
+        <h5>New Check-In Instances (Nurse sets the date):</h5>
+      </div>
+      <div class="template-section" id="newTemplateContainer">
+        <h5>Existing Check-In Questions</h5>
+      </div>
+      <button id="addNewTemplateQuestionBtn" class="btn">Add New Question</button>
+      <button id="saveNewCheckinBtn" class="btn green">Save New Check-In(s)</button>
+    `;
+
+    document.body.appendChild(newCheckinSection);
+    const toggleNewCheckinSectionBtn = document.createElement("button");
+    toggleNewCheckinSectionBtn.className = "btn";
+    toggleNewCheckinSectionBtn.textContent = "Add New Check-In(s)";
+    const checkInsSection = document.getElementById("checkInsSection");
+    checkInsSection.insertBefore(toggleNewCheckinSectionBtn, checkInsSection.firstChild);
+
+    // --- Reset Data Button ---
+    resetBtn.addEventListener("click", () => {
+      const defaultPatients = [
+        {
+          id: "1",
+          name: "John Doe",
+          status: "In Hospital",
+          admissionReason: "Pneumonia",
+          dischargeDetails: null,
+          checkIns: []
+        },
+        {
+          id: "2",
+          name: "Jane Smith",
+          status: "Discharged",
+          admissionReason: "Appendicitis",
+          dischargeDetails: {
+            dischargeDate: "2025-03-01T10:00",
+            diagnosis: "K35.2 (Acute appendicitis)",
+            dischargeSummary: "Appendix removed. Patient is stable.",
+            medications: [{ name: "Acetaminophen", dosage: "500 mg", frequency: "Q6H PRN" }],
+            activityRestrictions: "No heavy lifting for 2 weeks.",
+            dietRecommendations: "Regular diet, stay hydrated.",
+            redFlagSymptoms: "Severe abdominal pain, fever, vomiting.",
+            nextFollowupDue: "Check-up in 7 days",
+            contactForEmergency: "(555) 987-6543 or nearest ER",
+            dischargeInstructions: "Keep incision clean, watch for infection.",
+            checkInTemplate: { questions: ["Medication taken?", "Symptoms", "How are you feeling?"] },
+            checkInInstances: ["2025-03-02", "2025-03-03", "2025-03-04"],
+            expectedCheckIns: 3
+          },
+          checkIns: [
+            {
+              date: "2025-03-02",
+              response: { "Medication taken?": "Yes", "Symptoms": "Mild pain", "How are you feeling?": "Good" },
+              status: "completed"
+            },
+            {
+              date: "2025-03-03",
+              response: { "Medication taken?": "", "Symptoms": "", "How are you feeling?": "" },
+              status: "pending"
+            },
+            {
+              date: "2025-03-04",
+              response: { "Medication taken?": "No", "Symptoms": "Severe pain", "How are you feeling?": "Poor" },
+              status: "completed"
+            }
+          ]
+        },
+        {
+          id: "3",
+          name: "Mark Johnson",
+          status: "In Hospital",
+          admissionReason: "Hip Surgery",
+          dischargeDetails: null,
+          checkIns: []
+        }
+      ];
+      localStorage.setItem("patientsData", JSON.stringify(defaultPatients));
+      location.href = "index.html";
+    });
+
+    // --- Functions ---
     function renderHeader() {
       if (!currentPatient) return;
       patientNameEl.textContent = "Managing Patient: " + currentPatient.name;
@@ -385,7 +425,6 @@
       patientInfoEl.innerHTML = html;
     }
 
-    // --- Action Section ---
     dischargePatientBtn.addEventListener("click", () => {
       dischargeFormSection.style.display = "block";
       actionSection.style.display = "none";
@@ -410,18 +449,35 @@
       addMedicationRow();
     });
 
-    // --- Standard Check-In Template ---
-    // The template section is pre-populated in HTML with standard questions (read-only).
-    // Allow nurse to add extra questions.
+    // Handle removing standard questions (the "X" next to them)
+    function attachRemoveHandlersForQuestions() {
+      document.querySelectorAll(".remove-question-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const row = e.target.closest(".template-row");
+          row.remove();
+        });
+      });
+    }
+
+    // Initially attach remove handlers for the three default questions
+    attachRemoveHandlersForQuestions();
+
+    // Add New Question
     addNewQuestionBtn.addEventListener("click", () => {
       const row = document.createElement("div");
       row.className = "template-row";
-      row.innerHTML = `<input type="text" class="template-question" placeholder="Enter new question">`;
+      row.innerHTML = `
+        <input type="text" class="template-question" placeholder="Enter new question">
+        <button class="remove-question-btn" style="background:#dc3545; padding:4px 8px;">X</button>
+      `;
       templateContainer.appendChild(row);
+
+      // Attach remove handler for this new row
+      const removeBtn = row.querySelector(".remove-question-btn");
+      removeBtn.addEventListener("click", () => row.remove());
     });
 
-    // --- Check-In Instances ---
-    // When nurse clicks "Set Count", generate that many check-in instance rows with a date input (date only).
+    // Check-In Instances
     setCheckinCountBtn.addEventListener("click", () => {
       const count = parseInt(numCheckinsInput.value);
       if (isNaN(count) || count < 1) {
@@ -433,37 +489,125 @@
       for (let i = 0; i < count; i++) {
         const row = document.createElement("div");
         row.className = "instances-row";
-        row.innerHTML = `<label>Check In Date for Check-In ${i + 1}</label>
-                         <input type="date" class="checkin-date-instance">`;
+        row.innerHTML = `
+          <label>Check In Date for Check-In ${i + 1}</label>
+          <input type="date" class="checkin-date-instance">
+        `;
         checkinInstancesContainer.appendChild(row);
       }
     });
 
-    // --- Discharge Process ---
+    // AI Suggestions
+    helpAiBtn.addEventListener("click", () => {
+      const dischargeDate = dischargeDateInput.value;
+      const diagnosis = diagnosisInput.value;
+      const dischargeSummary = dischargeSummaryInput.value;
+      
+      let medications = [];
+      document.querySelectorAll(".medication-row").forEach(row => {
+        const name = row.querySelector(".med-name").value;
+        const dosage = row.querySelector(".med-dosage").value;
+        const frequency = row.querySelector(".med-frequency").value;
+        if (name.trim() !== "") {
+          medications.push({ name, dosage, frequency });
+        }
+      });
+      
+      const checkInTemplateQuestions = Array.from(document.querySelectorAll(".template-question"))
+        .map(input => input.value.trim())
+        .filter(q => q !== "");
+      const instanceRows = document.querySelectorAll(".checkin-date-instance");
+      let checkInInstances = [];
+      instanceRows.forEach(row => {
+        checkInInstances.push(row.value);
+      });
+      
+      const payload = { 
+        dischargeDate, 
+        diagnosis, 
+        dischargeSummary, 
+        medications, 
+        checkInTemplate: { questions: checkInTemplateQuestions }, 
+        checkInInstances 
+      };
+      
+      helpAiBtn.textContent = "Loading...";
+      helpAiBtn.disabled = true;
+      
+      fetch('http://localhost:5000/api/ai-helper', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        activityRestrictionsInput.value = data.activityRestrictions || "";
+        dietRecommendationsInput.value = data.dietRecommendations || "";
+        redFlagSymptomsInput.value = data.redFlagSymptoms || "";
+        nextFollowupDueInput.value = data.nextFollowupDue || "";
+        contactForEmergencyInput.value = data.contactForEmergency || "";
+        dischargeInstructionsInput.value = data.dischargeInstructions || "";
+        
+        if (data.checkInTemplate && data.checkInTemplate.questions) {
+          templateContainer.innerHTML = "<h5>Standard Check-In Questions (Patient will answer these):</h5>";
+          data.checkInTemplate.questions.forEach(q => {
+            const row = document.createElement("div");
+            row.className = "template-row";
+            row.innerHTML = `
+              <input type="text" class="template-question" value="${q}" readonly>
+              <button class="remove-question-btn" style="background:#dc3545; padding:4px 8px;">X</button>
+            `;
+            templateContainer.appendChild(row);
+            
+            // Add remove handler for each AI-suggested question
+            row.querySelector(".remove-question-btn").addEventListener("click", () => {
+              row.remove();
+            });
+          });
+        }
+        
+        if (data.checkInInstances && Array.isArray(data.checkInInstances)) {
+          checkinInstancesContainer.innerHTML = "<h5>Check-In Instances (Nurse sets the date):</h5>";
+          data.checkInInstances.forEach((dateVal, idx) => {
+            const row = document.createElement("div");
+            row.className = "instances-row";
+            row.innerHTML = `
+              <label>Check In Date for Check-In ${idx + 1}</label>
+              <input type="date" class="checkin-date-instance" value="${dateVal}">
+            `;
+            checkinInstancesContainer.appendChild(row);
+          });
+          // Update expected number of check-ins if returned
+          if (data.expectedCheckIns) {
+            numCheckinsInput.value = data.expectedCheckIns;
+            numCheckinsInput.dataset.expectedCount = data.expectedCheckIns;
+          }
+        }
+      })
+      .catch(err => console.error("Error getting AI suggestions:", err))
+      .finally(() => {
+        helpAiBtn.textContent = "Get AI Suggestions";
+        helpAiBtn.disabled = false;
+      });
+    });
+
+    // Confirm Discharge
     confirmDischargeBtn.addEventListener("click", () => {
       const expectedCount = parseInt(numCheckinsInput.dataset.expectedCount || "0");
-
-      // Gather the check-in template questions from the template container.
       const templateQuestions = Array.from(document.querySelectorAll(".template-question"))
         .map(input => input.value.trim())
         .filter(q => q !== "");
-
       if (templateQuestions.length === 0) {
         console.log("Standard check-in template must have at least one question.");
         return;
       }
-
-      // Gather check-in instance dates from the instance rows.
       const instanceRows = document.querySelectorAll(".checkin-date-instance");
       let instanceDates = [];
       instanceRows.forEach(row => {
-        instanceDates.push(row.value);  // Only date, no time.
+        instanceDates.push(row.value);
       });
-
-      const fullCheckinTemplate = {
-        questions: templateQuestions
-      };
-
+      const fullCheckinTemplate = { questions: templateQuestions };
+      
       const dischargeObj = {
         dischargeDate: dischargeDateInput.value,
         diagnosis: diagnosisInput.value,
@@ -487,16 +631,11 @@
       currentPatient.status = "Discharged";
       currentPatient.dischargeDetails = dischargeObj;
 
-      // Create dummy check-in responses (one for each expected check-in).
-      // For each dummy response, the nurse-provided "Check In Date" is stored.
-      // Additionally, if the check in date is in the past relative to today's date, mark it as "missed".
       const today = new Date().toISOString().slice(0, 10);
       currentPatient.checkIns = [];
       for (let i = 0; i < expectedCount; i++) {
         const dummy = {};
-        templateQuestions.forEach(q => {
-          dummy[q] = ""; // Initially empty.
-        });
+        templateQuestions.forEach(q => { dummy[q] = ""; });
         let status = "pending";
         if (instanceDates[i] && instanceDates[i] < today) {
           status = "missed";
@@ -508,32 +647,29 @@
         });
       }
       updatePatient();
-
     });
+
     function updatePatient() {
-      // Update the patient via PUT API call
       fetch(`${API_BASE}/${patientId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(currentPatient)
       })
-        .then(res => res.json())
-        .then(data => {
-          currentPatient = data;
-          console.log("Patient updated:", data);
-          dischargeFormSection.style.display = "none";
-          actionSection.style.display = "none";
-          displaySection.style.display = "block";
-          displaySection.innerHTML = generateDisplayHTML();
-          renderPatientInfo();
-          renderCheckIns();
-        })
-        .catch(err => console.error("Error updating patient:", err));
+      .then(res => res.json())
+      .then(data => {
+        currentPatient = data;
+        console.log("Patient updated:", data);
+        dischargeFormSection.style.display = "none";
+        actionSection.style.display = "none";
+        displaySection.style.display = "block";
+        displaySection.innerHTML = generateDisplayHTML();
+        renderPatientInfo();
+        renderCheckIns();
+      })
+      .catch(err => console.error("Error updating patient:", err));
     }
 
-    // --- Generate Display HTML for Summary ---
+    // Generate Display HTML for Summary
     function generateDisplayHTML() {
       if (!currentPatient || currentPatient.status !== "Discharged" || !currentPatient.dischargeDetails) return "";
       const dd = currentPatient.dischargeDetails;
@@ -542,7 +678,9 @@
         <p><strong>Diagnosis:</strong> ${dd.diagnosis}</p>
         <p><strong>Summary:</strong> ${dd.dischargeSummary}</p>
         <p><strong>Medications:</strong></p>
-        <ul>${dd.medications && dd.medications.length ? dd.medications.map(m => `<li>${m.name} - ${m.dosage} - ${m.frequency}</li>`).join('') : "<li>N/A</li>"}</ul>
+        <ul>${dd.medications && dd.medications.length 
+          ? dd.medications.map(m => `<li>${m.name} - ${m.dosage} - ${m.frequency}</li>`).join('')
+          : "<li>N/A</li>"}</ul>
         <p><strong>Activity Restrictions:</strong> ${dd.activityRestrictions}</p>
         <p><strong>Diet Recommendations:</strong> ${dd.dietRecommendations}</p>
         <p><strong>Red-Flag Symptoms:</strong> ${dd.redFlagSymptoms}</p>
@@ -555,54 +693,111 @@
       return html;
     }
 
+    // Render Check-In Responses
     function renderCheckIns() {
-  responsesListEl.innerHTML = "";
-  if (!currentPatient || currentPatient.status !== "Discharged") {
-    responsesListEl.innerHTML = "<p>No check‑ins available.</p>";
-    return;
-  }
-
-  currentPatient.checkIns.forEach((ci, index) => {
-    let hasAnswer = false;
-    const template = currentPatient.dischargeDetails.checkInTemplate;
-    let responsesHtml = "";
-    
-    if (template && template.questions.length > 0) {
-      template.questions.forEach(q => {
-        const answer = ci.response[q] ? ci.response[q].trim() : "";
-        if (answer !== "") {
-          hasAnswer = true;
+      responsesListEl.innerHTML = "";
+      if (!currentPatient || currentPatient.status !== "Discharged") {
+        responsesListEl.innerHTML = "<p>No check‑ins available.</p>";
+        return;
+      }
+      currentPatient.checkIns.forEach((ci, index) => {
+        let responsesHtml = "";
+        const template = currentPatient.dischargeDetails.checkInTemplate;
+        let hasAnswer = false;
+        if (template && template.questions.length > 0) {
+          template.questions.forEach(q => {
+            const answer = ci.response[q] ? ci.response[q].trim() : "";
+            if (answer !== "") {
+              hasAnswer = true;
+            }
+            responsesHtml += `<p><strong>${q}</strong>: ${answer || "<em>Pending</em>"}</p>`;
+          });
         }
-        responsesHtml += `<p><strong>${q}</strong>: ${answer}</p>`;
+        const today = new Date().toISOString().slice(0,10);
+        if (!hasAnswer) {
+          responsesHtml = `<p><strong>${ci.date || "No Date"}</strong> - 
+            ${ci.date && ci.date < today ? "Missed" : "Pending"}</p>`;
+        }
+        const div = document.createElement("div");
+        div.className = "response-item";
+        div.innerHTML = `<p><strong>Check-In ${index + 1}:</strong></p>${responsesHtml}
+                         ${
+                           (!hasAnswer) 
+                            ? `<button class="btn update-btn" data-index="${index}">Update</button>` 
+                            : "" 
+                         }
+                         <div class="update-form-container" id="update-form-${index}" style="display: none;"></div>`;
+        responsesListEl.appendChild(div);
+      });
+      
+      document.querySelectorAll(".update-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const idx = e.target.dataset.index;
+          toggleUpdateForm(idx);
+        });
       });
     }
 
-    // Determine check-in status
-    const today = new Date().toISOString().slice(0, 10);
-    let status = "Pending";
-    
-    if (!hasAnswer) {
-      if (ci.date && ci.date < today) {
-        status = "Missed";
+    function toggleUpdateForm(index) {
+      const container = document.getElementById("update-form-" + index);
+      if (container.style.display === "none") {
+        renderUpdateForm(index, container);
+        container.style.display = "block";
+      } else {
+        container.style.display = "none";
       }
-    } else {
-      status = "Completed";
     }
 
-    // Construct the check-in display
-    const div = document.createElement("div");
-    div.className = "response-item";
-    div.innerHTML = `<p><strong>Check-In ${index + 1}:</strong></p>
-                     <p><strong>${ci.date || "No Date"}</strong> - ${status}</p>`;
-
-    // Only show responses if status is "Completed"
-    if (status === "Completed") {
-      div.innerHTML += responsesHtml;
+    function renderUpdateForm(index, container) {
+      container.innerHTML = "";
+      const template = currentPatient.dischargeDetails.checkInTemplate;
+      if (template && template.questions.length > 0) {
+        template.questions.forEach(q => {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.className = "update-answer";
+          input.placeholder = q;
+          input.value = currentPatient.checkIns[index].response[q] || "";
+          input.dataset.question = q;
+          container.appendChild(input);
+        });
+      }
+      const saveBtn = document.createElement("button");
+      saveBtn.className = "btn green";
+      saveBtn.textContent = "Save Update";
+      saveBtn.addEventListener("click", () => {
+        const newAnswers = {};
+        container.querySelectorAll(".update-answer").forEach(input => {
+          newAnswers[input.dataset.question] = input.value;
+        });
+        updateCheckIn(index, newAnswers);
+      });
+      container.appendChild(saveBtn);
     }
 
-    responsesListEl.appendChild(div);
-  });
-}
+    function updateCheckIn(index, newAnswers) {
+      currentPatient.checkIns[index].response = newAnswers;
+      let allEmpty = true;
+      for (const key in newAnswers) {
+        if (newAnswers[key].trim() !== "") {
+          allEmpty = false;
+          break;
+        }
+      }
+      currentPatient.checkIns[index].status = allEmpty ? "pending" : "completed";
+
+      fetch(`${API_BASE}/${patientId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentPatient)
+      })
+      .then(res => res.json())
+      .then(data => {
+        currentPatient = data;
+        renderCheckIns();
+      })
+      .catch(err => console.error("Error updating check-in:", err));
+    }
 
     // --- INIT ---
     function init() {
@@ -619,20 +814,21 @@
         displaySection.style.display = "block";
         displaySection.innerHTML = generateDisplayHTML();
       }
+      // Attach remove handlers for default questions on load
+      attachRemoveHandlersForQuestions();
     }
 
-    // Fetch data from the backend and initialize.
-    function fetchPatientData() {
-      fetch(`${API_BASE}/${patientId}`)
-        .then(res => res.json())
-        .then(data => {
-          currentPatient = data;
-          init();
-        })
-        .catch(err => console.error("Error fetching patient data:", err));
+    function attachRemoveHandlersForQuestions() {
+      // Attach remove handlers to any existing question row's "X"
+      document.querySelectorAll(".remove-question-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const row = e.target.closest(".template-row");
+          row.remove();
+        });
+      });
     }
+
     fetchPatientData();
   </script>
 </body>
-
 </html>
